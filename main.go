@@ -60,7 +60,7 @@ func init() {
 }
 
 func main() {
-	for _ = range time.Tick(cfg.PollInterval) {
+	for range time.Tick(cfg.PollInterval) {
 		if err := doUpdate(); err != nil {
 			log.Printf("Failed to update discovery file for ASG %s: %s", cfg.AutoscalingGroup, err)
 		}
