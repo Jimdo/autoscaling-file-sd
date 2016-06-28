@@ -144,11 +144,6 @@
 			"Rev": "3433f3ea46d9f8019119e7dd41274e112a2359a9"
 		},
 		{
-			"ImportPath": "github.com/robfig/cron",
-			"Comment": "v1-2-g67823cd",
-			"Rev": "67823cd24dece1b04cced3a0a0b3ca2bc84d875e"
-		},
-		{
 			"ImportPath": "github.com/spf13/pflag",
 			"Rev": "b084184666e02084b8ccb9b704bf0d79c466eb1d"
 		},
