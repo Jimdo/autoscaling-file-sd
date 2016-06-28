@@ -17,7 +17,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/autoscaling"
 	"github.com/aws/aws-sdk-go/service/ec2"
-	"github.com/robfig/cron"
 )
 
 var (
@@ -61,16 +60,10 @@ func init() {
 }
 
 func main() {
-	c := cron.New()
-	c.AddFunc("@every "+cfg.PollInterval.String(), func() {
+	for _ = range time.Tick(cfg.PollInterval) {
 		if err := doUpdate(); err != nil {
-			log.Printf("Failed to update DNS record for ASG %s: %s", cfg.AutoscalingGroup, err)
+			log.Printf("Failed to update discovery file for ASG %s: %s", cfg.AutoscalingGroup, err)
 		}
-	})
-	c.Start()
-
-	for {
-		select {}
 	}
 }
 
