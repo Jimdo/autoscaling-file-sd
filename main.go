@@ -22,13 +22,11 @@ import (
 
 var (
 	cfg = struct {
-		AutoscalingGroup string `flag:"autoscaling-group-name,a" env:"AUTOSCALING_GROUP_NAME" default:"" description:"Name of the AutoScalingGroup to fetch instances from"`
-		Port             int64  `flag:"port" env:"PORT" default:"" description:"Port to register in SRV record"`
-		PollInterval     string `flag:"interval,i" env:"INTERVAL" default:"30s" description:"Interval to poll for changes in the ASG"`
-		PublishTo        string `flag:"publish-to,p" env:"PUBLISH_TO" default:"file://discover.json" description:"Where to write the discovery file"`
-		VersionAndExit   bool   `flag:"version" description:"Print version and exit"`
-
-		parsedPollInterval time.Duration
+		AutoscalingGroup string        `flag:"autoscaling-group-name,a" env:"AUTOSCALING_GROUP_NAME" default:"" description:"Name of the AutoScalingGroup to fetch instances from"`
+		Port             int64         `flag:"port" env:"PORT" default:"" description:"Port to register in SRV record"`
+		PollInterval     time.Duration `flag:"interval,i" env:"INTERVAL" default:"30s" description:"Interval to poll for changes in the ASG"`
+		PublishTo        string        `flag:"publish-to,p" env:"PUBLISH_TO" default:"file://discover.json" description:"Where to write the discovery file"`
+		VersionAndExit   bool          `flag:"version" description:"Print version and exit"`
 	}{}
 	version = "dev"
 
@@ -60,17 +58,11 @@ func init() {
 		rconfig.Usage()
 		os.Exit(1)
 	}
-
-	if i, err := time.ParseDuration(cfg.PollInterval); err != nil {
-		log.Fatalf("Unable to parse interval: %s", err)
-	} else {
-		cfg.parsedPollInterval = i
-	}
 }
 
 func main() {
 	c := cron.New()
-	c.AddFunc("@every "+cfg.parsedPollInterval.String(), func() {
+	c.AddFunc("@every "+cfg.PollInterval.String(), func() {
 		if err := doUpdate(); err != nil {
 			log.Printf("Failed to update DNS record for ASG %s: %s", cfg.AutoscalingGroup, err)
 		}
