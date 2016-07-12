@@ -10,5 +10,7 @@ RUN set -ex \
  && go install -ldflags "-X main.version=$(git describe --tags || git rev-parse --short HEAD || echo dev)" \
  && apk del --purge git
 
+VOLUME ["/config"]
+
 ENTRYPOINT ["/go/bin/autoscaling-file-sd"]
 CMD ["--"]
