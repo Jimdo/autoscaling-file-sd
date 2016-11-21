@@ -1,3 +1,7 @@
+# 0.1.3 / 2016-11-21
+
+  * Publish to Github
+
 # 0.1.2 / 2016-07-12
 
   * add /config volume
