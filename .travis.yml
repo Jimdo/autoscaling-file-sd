@@ -1,7 +1,7 @@
 language: go
 
-go:
-  - 1.7
-
 script:
-  - make ci
+    - make test
+
+after_success:
+    - test -n "$TRAVIS_TAG" && make release
